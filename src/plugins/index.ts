@@ -55,6 +55,7 @@ export const plugins: Plugin[] = [
     generateTitle,
     generateURL,
   }),
+
   formBuilderPlugin({
     fields: {
       payment: false,
