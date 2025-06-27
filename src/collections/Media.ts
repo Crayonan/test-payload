@@ -24,8 +24,22 @@ export const Media: CollectionConfig = {
   },
   fields: [
     {
+      name: 'category',
+      type: 'select',
+      options: [
+        { label: 'Artists', value: 'artists' },
+        { label: 'Gallery', value: 'gallery' },
+        { label: 'News', value: 'news' },
+        { label: 'FAQ', value: 'faq' },
+        { label: 'Instagram', value: 'instagram' },
+        { label: 'Product', value: 'product' },
+      ],
+    },
+    {
       name: 'alt',
       type: 'text',
+      required: true,
+      label: 'Alt Text',
       //required: true,
     },
     {
@@ -41,9 +55,17 @@ export const Media: CollectionConfig = {
   upload: {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
+    mimeTypes: ['image/*', 'video/*'],
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     imageSizes: [
+      {
+        name: 'artist-4x3',
+        width: 800,
+        height: 600,
+        position: 'centre',
+        withoutEnlargement: true,
+      },
       {
         name: 'thumbnail',
         width: 300,
@@ -76,5 +98,8 @@ export const Media: CollectionConfig = {
         crop: 'center',
       },
     ],
+    formatOptions: {
+      format: 'webp', // Convert everything to webp for smaller, faster images
+    },
   },
 }

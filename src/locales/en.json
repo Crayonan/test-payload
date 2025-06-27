@@ -1,0 +1,49 @@
+{
+  "home": {
+    "welcomeMessage": "Welcome to Lost & Sound! Content is being prepared.",
+    "festivalHighlights": "Festival Highlights",
+    "hero": {
+      "bg": "Summer.Sound.Joy",
+      "sm1": "Summer",
+      "sm2": "Sound",
+      "sm3": "Joy"
+    },
+    "day": "days",
+    "hour": "hours",
+    "minute": "minutes",
+    "second": "seconds"
+  },
+  "header": {
+    "festivalText": "Summer.Sound.Joy",
+    "tagline": "Festival 2025",
+    "getTickets": "Get Tickets"
+  },
+  "footer": {
+    "tagline": "Festival since 2023",
+    "copyright": "© 2025 LOST & SOUND Festival. All rights reserved.",
+    "quickLinksTitle": "Quick Links",
+    "contactTitle": "Contact",
+    "followUsTitle": "Follow Us"
+  },
+  "info": {
+    "instagram": "INSTAGRAM",
+    "noInstagramPosts": "No Instagram posts to display.",
+    "loadingInstagram": "Loading Instagram post…",
+    "instagramFollow": "Follow us on Instagram for the latest updates and behind-the-scenes content.",
+    "viewAllInstagram": "View all posts on Instagram",
+    "news": "NEWS",
+    "noNewsPosts": "No news articles to display.",
+    "noNewsSelected": "No news article selected.",
+    "faq": "FAQ",
+    "stillQuestions": "Still have questions?",
+    "contactSupport": "Contact Support",
+    "secureTickets": "SECURE YOUR TICKETS",
+    "dateLabel": "DATE",
+    "dateValue": "AUGUST 22 - 24, 2025",
+    "locationLabel": "LOCATION",
+    "locationValue": "BRODOWIN",
+    "viewAllNews": "View All News",
+    "noFaqs": "No FAQs available.",
+    "stillQuestionsDesc": "Still have questions? Contact our support team for assistance."
+  }
+}

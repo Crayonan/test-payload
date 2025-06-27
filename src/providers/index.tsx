@@ -1,14 +1,6 @@
-import React from 'react'
+import * as React from 'react'
+import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from 'next-themes'
 
-import { HeaderThemeProvider } from './HeaderTheme'
-import { ThemeProvider } from './Theme'
-
-export const Providers: React.FC<{
-  children: React.ReactNode
-}> = ({ children }) => {
-  return (
-    <ThemeProvider>
-      <HeaderThemeProvider>{children}</HeaderThemeProvider>
-    </ThemeProvider>
-  )
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }

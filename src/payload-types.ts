@@ -72,6 +72,11 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    artists: Artist;
+    'instagram-posts': InstagramPost;
+    'faq-items': FaqItem;
+    'news-articles': NewsArticle;
+    'fetch-logs': FetchLog;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +93,11 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    artists: ArtistsSelect<false> | ArtistsSelect<true>;
+    'instagram-posts': InstagramPostsSelect<false> | InstagramPostsSelect<true>;
+    'faq-items': FaqItemsSelect<false> | FaqItemsSelect<true>;
+    'news-articles': NewsArticlesSelect<false> | NewsArticlesSelect<true>;
+    'fetch-logs': FetchLogsSelect<false> | FetchLogsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -260,7 +270,8 @@ export interface Post {
  */
 export interface Media {
   id: string;
-  alt?: string | null;
+  category?: ('artists' | 'gallery' | 'news' | 'faq' | 'instagram' | 'product') | null;
+  alt: string;
   caption?: {
     root: {
       type: string;
@@ -288,6 +299,14 @@ export interface Media {
   focalX?: number | null;
   focalY?: number | null;
   sizes?: {
+    'artist-4x3'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
     thumbnail?: {
       url?: string | null;
       width?: number | null;
@@ -352,9 +371,11 @@ export interface Media {
  */
 export interface Category {
   id: string;
+  /**
+   * Select the type of category this represents
+   */
+  categoryType: 'music-genre' | 'picture-category' | 'social-platform' | 'article-category';
   title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
   parent?: (string | null) | Category;
   breadcrumbs?:
     | {
@@ -729,6 +750,147 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists".
+ */
+export interface Artist {
+  id: string;
+  name: string;
+  image?: (string | null) | Media;
+  biography?: {
+    bio?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * Select music genres for this artist
+     */
+    musicGenres?: (string | Category)[] | null;
+    socialLinks?:
+      | {
+          platform: 'instagram' | 'twitter' | 'facebook' | 'spotify' | 'soundcloud';
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  day?: ('friday' | 'saturday' | 'sunday') | null;
+  time?: string | null;
+  endTime?: string | null;
+  location?: ('main-stage' | 'outside-stage' | 'tent-area') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Fetched Instagram posts. Use the "Fetch Instagram Posts" action above the list to fetch new posts.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instagram-posts".
+ */
+export interface InstagramPost {
+  id: string;
+  instagramPostId?: string | null;
+  shortcode?: string | null;
+  ownerUsername?: string | null;
+  originalImageUrl?: string | null;
+  localImage?: (string | null) | Media;
+  localImages?: (string | Media)[] | null;
+  originalVideoUrl?: string | null;
+  localVideo?: (string | null) | Media;
+  caption?: string | null;
+  postDate?: string | null;
+  likesCount?: number | null;
+  commentsCount?: number | null;
+  isCarousel?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-items".
+ */
+export interface FaqItem {
+  id: string;
+  _order?: string | null;
+  question: string;
+  answer: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-articles".
+ */
+export interface NewsArticle {
+  id: string;
+  title: string;
+  coverImage: string | Media;
+  excerpt?: string | null;
+  publishedDate: string;
+  category?:
+    | ('lineup' | 'artists' | 'updates' | 'behind-scenes' | 'food-vendors' | 'sustainability' | 'community' | 'press')
+    | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Logs of Instagram fetch attempts.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fetch-logs".
+ */
+export interface FetchLog {
+  id: string;
+  user: string | User;
+  date: string;
+  instagramUsername: string;
+  status: 'success' | 'failed' | 'rate_limited_user';
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -919,6 +1081,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'artists';
+        value: string | Artist;
+      } | null)
+    | ({
+        relationTo: 'instagram-posts';
+        value: string | InstagramPost;
+      } | null)
+    | ({
+        relationTo: 'faq-items';
+        value: string | FaqItem;
+      } | null)
+    | ({
+        relationTo: 'news-articles';
+        value: string | NewsArticle;
+      } | null)
+    | ({
+        relationTo: 'fetch-logs';
+        value: string | FetchLog;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1153,6 +1335,7 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  category?: T;
   alt?: T;
   caption?: T;
   updatedAt?: T;
@@ -1169,6 +1352,16 @@ export interface MediaSelect<T extends boolean = true> {
   sizes?:
     | T
     | {
+        'artist-4x3'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
         thumbnail?:
           | T
           | {
@@ -1246,9 +1439,8 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
+  categoryType?: T;
   title?: T;
-  slug?: T;
-  slugLock?: T;
   parent?: T;
   breadcrumbs?:
     | T
@@ -1276,6 +1468,93 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists_select".
+ */
+export interface ArtistsSelect<T extends boolean = true> {
+  name?: T;
+  image?: T;
+  biography?:
+    | T
+    | {
+        bio?: T;
+        musicGenres?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  day?: T;
+  time?: T;
+  endTime?: T;
+  location?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instagram-posts_select".
+ */
+export interface InstagramPostsSelect<T extends boolean = true> {
+  instagramPostId?: T;
+  shortcode?: T;
+  ownerUsername?: T;
+  originalImageUrl?: T;
+  localImage?: T;
+  localImages?: T;
+  originalVideoUrl?: T;
+  localVideo?: T;
+  caption?: T;
+  postDate?: T;
+  likesCount?: T;
+  commentsCount?: T;
+  isCarousel?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq-items_select".
+ */
+export interface FaqItemsSelect<T extends boolean = true> {
+  _order?: T;
+  question?: T;
+  answer?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-articles_select".
+ */
+export interface NewsArticlesSelect<T extends boolean = true> {
+  title?: T;
+  coverImage?: T;
+  excerpt?: T;
+  publishedDate?: T;
+  category?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fetch-logs_select".
+ */
+export interface FetchLogsSelect<T extends boolean = true> {
+  user?: T;
+  date?: T;
+  instagramUsername?: T;
+  status?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1587,6 +1866,35 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  socialMediaLinks?:
+    | {
+        platform: 'instagram' | 'twitter' | 'facebook' | 'linkedin' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Contact information displayed in the footer
+   */
+  contactInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Short tagline displayed under the logo
+   */
+  tagline?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1632,6 +1940,15 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  socialMediaLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  contactInfo?: T;
+  tagline?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
